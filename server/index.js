@@ -9,10 +9,10 @@ const wss = new WebSocket.Server({ server });
 
 // Create MySQL connection
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'Harsh@2211',
-  database: 'flight_data'
+  host: process.env.HOST_NAME,
+  user: process.env.HOST_USER,
+  password: process.env.HOST_PASSWORD,
+  database: process.env.DATABASE
 });
 
 // Connect to MySQL
