@@ -29,17 +29,25 @@ app.get('/', (req, res) => {
   res.send("Home");
 });
 
-app.get('/api/data' (req, res) => {
+// WebSocket server
+wss.on('connection', (ws) => {
+  console.log('Client connected');
+
+  // Send initial data to client upon connection
   connection.query('SELECT * FROM flight', (error, results) => {
     if (error) {
-      console.error('Error fetching data: ', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+      console.error('Error fetching initial data: ', error);
       return;
     }
-    // Send data as JSON response
-    res.json(results);
+    ws.send(JSON.stringify(results));
+  });
+
+  // Listen for close event
+  ws.on('close', () => {
+    console.log('Client disconnected');
   });
 });
+
 
 // Start server
 const PORT = 8080;
