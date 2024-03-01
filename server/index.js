@@ -6,6 +6,7 @@ const WebSocket = require('ws');
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
+const cors = require('cors');
 app.use(cors());
 
 // Create MySQL connection
