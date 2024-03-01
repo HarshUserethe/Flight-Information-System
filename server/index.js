@@ -6,6 +6,7 @@ const WebSocket = require('ws');
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
+app.use(cors());
 
 // Create MySQL connection
 const connection = mysql.createConnection({
@@ -24,22 +25,19 @@ connection.connect((err) => {
   console.log('Connected to MySQL database...');
 });
 
-// WebSocket server
-wss.on('connection', (ws) => {
-  console.log('Client connected');
+app.get('/', (req, res) => {
+  res.send("Home");
+});
 
-  // Send initial data to client upon connection
+app.get('/api/data' (req, res) => {
   connection.query('SELECT * FROM flight', (error, results) => {
     if (error) {
-      console.error('Error fetching initial data: ', error);
+      console.error('Error fetching data: ', error);
+      res.status(500).json({ error: 'Internal Server Error' });
       return;
     }
-    ws.send(JSON.stringify(results));
-  });
-
-  // Listen for close event
-  ws.on('close', () => {
-    console.log('Client disconnected');
+    // Send data as JSON response
+    res.json(results);
   });
 });
 
