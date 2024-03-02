@@ -46,9 +46,6 @@ wss.on('connection', (ws) => {
   });
 });
 
-app.get('/', (req, res) => {
-  res.send('Updated Server');
-})
 
 app.get('/api/admin', (req, res) => {
 
@@ -92,19 +89,21 @@ app.get('/api/:id', (req, res) => {
   });
 });
 
-app.patch('/api/update/:id/:time/:delay/:gate/:remark', (req, res) => {
+app.patch('/api/update/:id/:time/:etd/:delay/:gate/:remark', (req, res) => {
   const ID = req.params.id;
-  const TIME = req.params.time;
-  const DELAY = req.params.delay;
+  const STD = req.params.time;
+  const ETD = req.params.etd;
   const GATE = req.params.gate;
   const REMARK = req.params.remark;
+  const DELAY = req.params.delay;
 
-  console.log(TIME, GATE, REMARK, DELAY, ID);
+
+  console.log(STD, ETD, GATE, REMARK, DELAY, ID);
   // SQL query with parameters for id, time, destination, and delay
-  const sql = `UPDATE flight SET TIME = ?, GATE = ?, REMARK = ?, DELAY = ? WHERE ID = ?`;
+  const sql = `UPDATE flight SET STD = ?, ETD = ?, GATE = ?, REMARK = ?, DELAY = ? WHERE ID = ?`;
 
   // Execute the query with a prepared statement
-  connection.query(sql, [TIME, GATE, REMARK, DELAY, ID], (err, results) => {
+  connection.query(sql, [STD,ETD, GATE, REMARK, DELAY, ID], (err, results) => {
     if (err) {
       console.error('Error updating data:', err);
       return res.status(500).send('Internal Server Error');

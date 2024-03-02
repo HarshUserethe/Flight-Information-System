@@ -37,17 +37,24 @@ function Items() {
   const [data, setData] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(1);
   const batchSize = 8;
-  const displayDuration = 5000; // 5 seconds
+  const displayDuration = 10000; // 10 seconds
 
   // const totalPages = Math.ceil(data.length / batchSize);
   const startIndex = (currentIndex - 1) * batchSize;
   const endIndex = Math.min(startIndex + batchSize, data.length);
+  
+  const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false });
+  const filteredData = data.filter(item => {
+    // Assuming ETD is in HH:MM format
+    return item.ETD >= currentTime;
+  });
 
-  const pageItems = data.slice(startIndex, endIndex);
+
+  const pageItems = filteredData.slice(startIndex, endIndex);
 
   useEffect(() => {
    function flightDataServer(){
-    const socket = new WebSocket('wss://flight-information-server.onrender.com');
+    const socket = new WebSocket('ws://localhost:8080');
 
     socket.onopen = () => {
       console.log('Connected to WebSocket server');
@@ -70,18 +77,20 @@ function Items() {
    
    flightDataServer();
    const interval = setInterval(() => {
-     setCurrentIndex((prevPage) => (prevPage % Math.ceil(data.length / batchSize)) + 1);
+   setCurrentIndex((prevPage) => (prevPage % Math.ceil(pageItems.length / batchSize)) + 1);
    flightDataServer();
 }, displayDuration);
 
 return () => clearInterval(interval);
-}, [data.length]);
+}, [pageItems.length]);
+
 
 
 const emptyDivsCount = batchSize - pageItems.length;
 for (let i = 0; i < emptyDivsCount; i++) {
   pageItems.push({
-    TIME: '---', // Assuming these fields are needed for rendering empty columns
+    STD: '---', // Assuming these fields are needed for rendering empty columns
+    ETD: '---', // Assuming these fields are needed for rendering empty columns
     DELAY: '---',
     LOGO: 'https://www.icolorpalette.com/download/solidcolorimage/ffffff_solid_color_background_icolorpalette.png',
     ID: '---',
@@ -91,13 +100,16 @@ for (let i = 0; i < emptyDivsCount; i++) {
   });
 }
 
+
+
 return (
         <div className="item">
   <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow >
-            <StyledTableCell>Time</StyledTableCell>
+            <StyledTableCell>STD</StyledTableCell>
+            <StyledTableCell>ETD</StyledTableCell>
             <StyledTableCell align="center">Delay</StyledTableCell>
             <StyledTableCell align="center"></StyledTableCell>
             <StyledTableCell align="center"></StyledTableCell>
@@ -114,7 +126,10 @@ return (
             <TableBody className='odd' key={index}> 
             
             <StyledTableCell component="th" scope="row" style={{color: "#FFDB00"}}>
-                {item.TIME}
+                {item.STD}
+            </StyledTableCell>
+            <StyledTableCell component="th" scope="row">
+                {item.ETD}
             </StyledTableCell>
             <StyledTableCell align="center" style={{color: item.DELAY === 'No Delay' ? '#0FFF50' : 'red'}}>{item.DELAY}</StyledTableCell>
             <StyledTableCell align="center"><div className="logo-cell"><img src={item.LOGO} alt="" /></div></StyledTableCell>
