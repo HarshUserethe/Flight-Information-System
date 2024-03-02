@@ -14,7 +14,7 @@ const Admin = () => {
 
    const handelUpdateButton = async () => {
     
-    const response = await axios.get('http://localhost:8080/api/admin');
+    const response = await axios.get('https://flight-information-server.onrender.com/api/admin');
     
     if(username === response.data[0].username && password === response.data[0].password){
       navigate('/admin/update');
