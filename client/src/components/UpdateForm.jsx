@@ -30,7 +30,7 @@ const UpdateForm = () => {
     }
 
    const handleUpdate = async () => {
-    const resp = await axios.patch(`https://flight-information-server.onrender.com/${flightId}/${flightTime}/${delayStatus}/${gate}/${remark}`); 
+    const resp = await axios.patch(`https://flight-information-server.onrender.com/api/update/${flightId}/${flightTime}/${delayStatus}/${gate}/${remark}`); 
     console.log(resp)
     navigate('/');
 }
