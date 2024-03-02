@@ -40,7 +40,7 @@ const UpdateForm = () => {
     
 
     const searchById = async () => {
-       const response = await axios.get(`https://flight-information-server.onrender.com/api/${flightId}`);
+       const response = await axios.get(`http://localhost:8080/api/${flightId}`);
        setFlightData(response.data.ID);
        setFlightDestination(response.data.DESTINATION);
        setTime(response.data.STD);
@@ -51,7 +51,7 @@ const UpdateForm = () => {
 
    const handleUpdate = async () => {
     const newDelayStatus = `${delayhour}Hour ${delaymins}Mins`;
-    const resp = await axios.patch(`https://flight-information-server.onrender.com/api/update/${flightId}/${flightTime}/${newETD}/${newDelayStatus}/${gate}/${remark}`); 
+    const resp = await axios.patch(`http://localhost:8080/api/update/${flightId}/${flightTime}/${newETD}/${newDelayStatus}/${gate}/${remark}`); 
     console.log(resp)
     navigate('/');
 }
