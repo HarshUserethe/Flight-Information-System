@@ -20,7 +20,7 @@ function App() {
       <div className="top-heading-bar"> 
         <div className="icon"><CIcon icon={icon.cilFlightTakeoff} style={{color:"#fff", fontSize: "2vw !important"}} /></div>
         <h2>Jay Prakash Narayan International Airport</h2>
-        <Login />
+        
       </div>
       <FlightsTable />
       
