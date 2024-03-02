@@ -47,7 +47,7 @@ function Items() {
 
   useEffect(() => {
    function flightDataServer(){
-    const socket = new WebSocket('ws://flight-information-server.onrender.com');
+    const socket = new WebSocket('wss://flight-information-server.onrender.com');
 
     socket.onopen = () => {
       console.log('Connected to WebSocket server');
