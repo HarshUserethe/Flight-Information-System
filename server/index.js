@@ -2,13 +2,14 @@ const express = require('express');
 const mysql = require('mysql');
 const http = require('http');
 const WebSocket = require('ws');
-
+require('dotenv').config();
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
+const fs = require('fs');
+const path = require('path');
 const cors = require('cors');
-app.use(cors());
-
+app.use(cors())
 // Create MySQL connection
 const connection = mysql.createConnection({
   host: process.env.HOST_NAME,
@@ -24,10 +25,6 @@ connection.connect((err) => {
     return;
   }
   console.log('Connected to MySQL database...');
-});
-
-app.get('/', (req, res) => {
-  res.send("Home");
 });
 
 // WebSocket server
@@ -49,7 +46,76 @@ wss.on('connection', (ws) => {
   });
 });
 
+app.get('/', (req, res) => {
+  res.send('Updated Server');
+})
 
+app.get('/api/admin', (req, res) => {
+
+  // Read the content of admin.json file
+  fs.readFile('./admin-data/admin.json', 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading admin.json file:', err);
+      res.status(500).json({ error: 'Internal server error' });
+      return;
+    }
+
+    try {
+      const admins = JSON.parse(data).admins;
+      res.json(admins);
+    } catch (error) {
+      console.error('Error parsing JSON data:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+})
+
+app.get('/api/:id', (req, res) => {
+  const id = req.params.id;
+
+  // SQL query with parameter for id
+  const sql = `SELECT * FROM flight WHERE id = ?`;
+
+  // Execute the query with a prepared statement (prevents SQL injection)
+  connection.query(sql, [id], (err, results) => {
+    if (err) {
+      console.error('Error retrieving data:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+
+    if (results.length === 0) {
+      return res.status(404).send('Not Found');
+    }
+
+    // Send the retrieved data in JSON format
+    res.json(results[0]);
+  });
+});
+
+app.patch('/api/update/:id/:time/:delay/:gate/:remark', (req, res) => {
+  const ID = req.params.id;
+  const TIME = req.params.time;
+  const DELAY = req.params.delay;
+  const GATE = req.params.gate;
+  const REMARK = req.params.remark;
+
+  console.log(TIME, GATE, REMARK, DELAY, ID);
+  // SQL query with parameters for id, time, destination, and delay
+  const sql = `UPDATE flight SET TIME = ?, GATE = ?, REMARK = ?, DELAY = ? WHERE ID = ?`;
+
+  // Execute the query with a prepared statement
+  connection.query(sql, [TIME, GATE, REMARK, DELAY, ID], (err, results) => {
+    if (err) {
+      console.error('Error updating data:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+
+    console.log(results.affectedRows + " record(s) updated");
+
+    // Send a success message
+    res.json({ message: 'Data updated successfully' });
+  });
+});
 // Start server
 const PORT = 8080;
 server.listen(PORT, () => {
