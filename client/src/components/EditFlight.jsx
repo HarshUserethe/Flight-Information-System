@@ -1,3 +1,4 @@
+
 import '../App.css';
 import { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
@@ -27,7 +28,8 @@ const StyledTableCell = styled(TableCell)(() => ({
       borderBottom: "1px solid #dfdfdf"
     },
   }));
-
+  
+ 
    const editStyle = {
      backgroundColor:"green", padding:"10px", borderRadius:"7px", cursor:"pointer"
    }
@@ -36,28 +38,17 @@ const StyledTableCell = styled(TableCell)(() => ({
    }
 
 
-
-const EditFlight = () => {
+function Items() {
 
   const [data, setData] = useState([]);
-//   const [displayProperty, setDisplayProperty] = useState('none');
-//   const [pre, setPre] = useState('initial');
-//   const [cancel, setCancel] = useState('EDIT');
-//   const[flag, setFlag] = useState(0);
   const [delayUpadate, setDelayUpdate] = useState(null);
   const [gateUpdate, setGateUpdate] = useState(null);
   const [remarkUpdate, setRemarkUpdate] = useState(null);
   const [editRowIndex, setEditRowIndex] = useState(null);
   const [flightid, setflightId] = useState(null);
   const [updateETD, setUpdateETD] = useState(null);
-
-
-
-
   const batchSize = 8;
 
-
-  // const totalPages = Math.ceil(data.length / batchSize);
   
   const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false });
   const filteredData = data.filter(item => {
@@ -66,11 +57,11 @@ const EditFlight = () => {
   });
 
 
-  const pageItems = filteredData;
+  const pageItems = filteredData
 
   useEffect(() => {
    function flightDataServer(){
-    const socket = new WebSocket('ws://localhost:8080');
+    const socket = new WebSocket('wss://flight-information-server.onrender.com');
 
     socket.onopen = () => {
       console.log('Connected to WebSocket server');
@@ -92,8 +83,8 @@ const EditFlight = () => {
    
    
    const interval = setInterval(() => {
-   flightDataServer();
-}, 1000);
+     flightDataServer();
+}, 5000);
 
 return () => clearInterval(interval);
 }, [pageItems.length]);
@@ -110,61 +101,39 @@ for (let i = 0; i < emptyDivsCount; i++) {
     ID: '---',
     DESTINATION: '---',
     GATE: '---',
-    REMARK: '---',
+    REMARK: '---'
   });
 }
 
-// const handleEditButton = () => {
-//    if(flag === 0){
-//     setDisplayProperty("initial");
-//     setCancel("CANCEL");
-//     setPre("none");
-//     setFlag(1);
-//    }else{
-//     setDisplayProperty("none");
-//     setCancel("EDIT");
-//     setPre("initial");
-//     setFlag(0);
-//    }
-// }
-
-// const handleUpdateButton = async () => {
-
-//     setDisplayProperty("none");
-//     setCancel("EDIT");
-//     setPre("initial");
-// }
-
 const handleEditButton = (index, item) => {
-    setEditRowIndex(index);
-    setflightId(item.ID);
-  };
+  setEditRowIndex(index);
+  setflightId(item.ID);
+};
 
-  const handleUpdateButton = async () => {
+const handleUpdateButton = async () => {
 
-    const response = await axios.patch(`http://localhost:8080/api/update/${flightid}/${updateETD}/${gateUpdate}/${remarkUpdate}/${delayUpadate}`);
-    console.log(response)
-    // Implement your update logic here
-    setEditRowIndex(null); // Reset editRowIndex after updating
-    
-  };
+  const response = await axios.patch(`https://flight-information-server.onrender.com/api/update/${flightid}/${updateETD}/${gateUpdate}/${remarkUpdate}/${delayUpadate}`);
+  console.log(response)
+  // Implement your update logic here
+  setEditRowIndex(null); // Reset editRowIndex after updating
+  
+};
 
 
 const addDelayToEstimatedTime = (estimatedTime) => {
-    const [estimatedHours, estimatedMinutes] = estimatedTime.split(':').map(Number);
-    const totalEstimatedMinutes = estimatedHours * 60 + estimatedMinutes;
-    const updatedTotalMinutes = totalEstimatedMinutes + parseInt(delayUpadate, 10);
-    const updatedHours = Math.floor(updatedTotalMinutes / 60);
-    const updatedMinutes = updatedTotalMinutes % 60;
-    const updatedTime = `${updatedHours.toString().padStart(2, '0')}:${updatedMinutes.toString().padStart(2, '0')}`;
-    return updatedTime
-  };
+  const [estimatedHours, estimatedMinutes] = estimatedTime.split(':').map(Number);
+  const totalEstimatedMinutes = estimatedHours * 60 + estimatedMinutes;
+  const updatedTotalMinutes = totalEstimatedMinutes + parseInt(delayUpadate, 10);
+  const updatedHours = Math.floor(updatedTotalMinutes / 60);
+  const updatedMinutes = updatedTotalMinutes % 60;
+  const updatedTime = `${updatedHours.toString().padStart(2, '0')}:${updatedMinutes.toString().padStart(2, '0')}`;
+  return updatedTime
+};
 
 
-//client side code
-  return (
-  <div>
-     <TableContainer component={Paper}>
+return (
+        <div className="item">
+   <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow >
@@ -261,8 +230,8 @@ const addDelayToEstimatedTime = (estimatedTime) => {
       </Table>
     </TableContainer>
     
-  </div>
-  )
+        </div>
+    )
 }
 
-export default EditFlight
+export default Items

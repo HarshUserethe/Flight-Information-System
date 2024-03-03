@@ -4,7 +4,7 @@ const Login = () => {
     const navigate = useNavigate();
   return (
     <div>
-        <span style={{cursor: "pointer"}} onClick={() => {navigate('/admin/login')}}>Admin</span>
+        <span style={{cursor: "pointer"}} onClick={() => {navigate('/admin/update')}}>Admin</span>
     </div>
   )
 }
