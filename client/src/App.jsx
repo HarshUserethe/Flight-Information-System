@@ -4,7 +4,7 @@ import List from './components/List'
 import CIcon from '@coreui/icons-react';
 import * as icon from '@coreui/icons';
 import Admin from './components/Admin';
-import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import { HashRouter, Routes, Route} from 'react-router-dom';
 
 import UpdateForm from './components/UpdateForm';
 import NewFlightForm from './components/NewFlightForm';
