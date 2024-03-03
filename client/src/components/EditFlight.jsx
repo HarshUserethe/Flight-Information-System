@@ -50,7 +50,7 @@ function Items() {
   const [updateETD, setUpdateETD] = useState();
   const [estimatedTime, setEstimatedTime] = useState(null);
   const batchSize = 8;
-  console.log(estimatedTime)
+   
   
   const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false });
   const filteredData = data.filter(item => {
@@ -117,7 +117,7 @@ const handleEstimatedUpdates = (delayTime, estimatedTime) => {
   const updatedMinutes = updatedTotalMinutes % 60;
   const updatedTime = `${updatedHours.toString().padStart(2, '0')}:${updatedMinutes.toString().padStart(2, '0')}`;
   
-  console.log(delayUpadate);
+  
   setUpdateETD(updatedTime);
 }
 
@@ -127,7 +127,7 @@ const handleEditButton = (index, item) => {
   setEstimatedTime(null);
   setUpdateETD(item.ETD);
   // handleEstimatedUpdates(item.ETD);
-  console.log(item.ETD)
+   
 };
 
 
@@ -135,13 +135,13 @@ const handleUpdateButton = async () => {
 
   const response = await axios.patch(`https://flight-information-server.onrender.com/api/update/${flightid}/${updateETD}/${gateUpdate}/${remarkUpdate}/${delayMin}`);
   console.log(response)
-  console.log(delayUpadate);
+   
   // Implement your update logic here
   setEditRowIndex(null); // Reset editRowIndex after updating
   
 };
 
-console.log(delayMin);
+ 
 return (
         <div className="item">
    <TableContainer component={Paper}>
