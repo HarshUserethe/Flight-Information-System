@@ -39,7 +39,6 @@ function Items() {
   const batchSize = 8;
   const displayDuration = 3000; // 10 seconds
 
-  // const totalPages = Math.ceil(data.length / batchSize);
   const startIndex = (currentIndex - 1) * batchSize;
   const endIndex = Math.min(startIndex + batchSize, data.length);
   
@@ -51,6 +50,7 @@ function Items() {
 
 
   const pageItems = filteredData.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(filteredData.length / batchSize);
 
   useEffect(() => {
    function flightDataServer(){
@@ -77,13 +77,14 @@ function Items() {
    
    flightDataServer();
    const interval = setInterval(() => {
-   setCurrentIndex((prevPage) => (prevPage % Math.ceil(pageItems.length / batchSize)) + 1);
+   setCurrentIndex(prevIndex => (prevIndex % totalPages) + 1);
    flightDataServer();
 }, displayDuration);
 
 return () => clearInterval(interval);
-}, [pageItems.length]);
+}, [totalPages, displayDuration]);
 
+ 
 
 
 const emptyDivsCount = batchSize - pageItems.length;
