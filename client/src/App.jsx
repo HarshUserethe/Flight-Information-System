@@ -5,20 +5,22 @@ import CIcon from '@coreui/icons-react';
 import * as icon from '@coreui/icons';
 import Admin from './components/Admin';
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import EditFlight from './components/EditFlight';
- 
+
+import UpdateForm from './components/UpdateForm';
+import NewFlightForm from './components/NewFlightForm';
+import Login from './components/Login';
 
 function App() {
 
 
   return (
-    <Router>
+    <HashRouter>
     
     <div className="main">
       <div className="top-heading-bar"> 
         <div className="icon"><CIcon icon={icon.cilFlightTakeoff} style={{color:"#fff", fontSize: "2vw !important"}} /></div>
         <h2>Jay Prakash Narayan International Airport</h2>
-      
+        <Login />
       </div>
       <FlightsTable />
       
@@ -32,7 +34,7 @@ function App() {
 
     </div>
 
-    </Router>
+    </HashRouter>
   )
 }
 
