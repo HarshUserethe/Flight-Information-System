@@ -42,6 +42,7 @@ function Items() {
 
   const [data, setData] = useState([]);
   const [delayUpadate, setDelayUpdate] = useState(0);
+  const [delayMin, setDelayMin] = useState(null);
   const [gateUpdate, setGateUpdate] = useState(null);
   const [remarkUpdate, setRemarkUpdate] = useState(null);
   const [editRowIndex, setEditRowIndex] = useState(null);
@@ -132,14 +133,15 @@ const handleEditButton = (index, item) => {
 
 const handleUpdateButton = async () => {
 
-  const response = await axios.patch(`https://flight-information-server.onrender.com/api/update/${flightid}/${updateETD}/${gateUpdate}/${remarkUpdate}/${delayUpadate}`);
+  const response = await axios.patch(`https://flight-information-server.onrender.com/api/update/${flightid}/${updateETD}/${gateUpdate}/${remarkUpdate}/${delayMin}`);
   console.log(response)
+  console.log(delayUpadate);
   // Implement your update logic here
   setEditRowIndex(null); // Reset editRowIndex after updating
   
 };
 
-
+console.log(delayMin);
 return (
         <div className="item">
    <TableContainer component={Paper}>
@@ -184,7 +186,7 @@ return (
 
             <StyledTableCell align="center" style={{color: item.DELAY === 'No Delay' ? '#0FFF50' : 'red'}}> 
             {editRowIndex === index ? (
-              <input type="number" onChange={e => handleEstimatedUpdates(e.target.value, item.ETD)} className='editable' style={{display: 'block'}} />
+              <input type="number" onChange={e => {handleEstimatedUpdates(e.target.value, item.ETD), setDelayMin(e.target.value)}} className='editable' style={{display: 'block'}} />
             ) : (
               <span>{item.DELAY}</span>
             )}
