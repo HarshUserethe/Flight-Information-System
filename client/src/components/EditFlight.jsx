@@ -41,14 +41,15 @@ const StyledTableCell = styled(TableCell)(() => ({
 function Items() {
 
   const [data, setData] = useState([]);
-  const [delayUpadate, setDelayUpdate] = useState(null);
+  const [delayUpadate, setDelayUpdate] = useState(0);
   const [gateUpdate, setGateUpdate] = useState(null);
   const [remarkUpdate, setRemarkUpdate] = useState(null);
   const [editRowIndex, setEditRowIndex] = useState(null);
   const [flightid, setflightId] = useState(null);
-  const [updateETD, setUpdateETD] = useState(null);
+  const [updateETD, setUpdateETD] = useState();
+  const [estimatedTime, setEstimatedTime] = useState(null);
   const batchSize = 8;
-
+  console.log(estimatedTime)
   
   const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false });
   const filteredData = data.filter(item => {
@@ -84,7 +85,7 @@ function Items() {
    
    const interval = setInterval(() => {
      flightDataServer();
-}, 5000);
+}, 1000);
 
 return () => clearInterval(interval);
 }, [pageItems.length]);
@@ -105,10 +106,29 @@ for (let i = 0; i < emptyDivsCount; i++) {
   });
 }
 
+
+const handleEstimatedUpdates = (delayTime, estimatedTime) => {
+ 
+  const [estimatedHours, estimatedMinutes] = estimatedTime.split(':').map(Number);
+  const totalEstimatedMinutes = estimatedHours * 60 + estimatedMinutes;
+  const updatedTotalMinutes = totalEstimatedMinutes + parseInt(delayTime, 10);
+  const updatedHours = Math.floor(updatedTotalMinutes / 60);
+  const updatedMinutes = updatedTotalMinutes % 60;
+  const updatedTime = `${updatedHours.toString().padStart(2, '0')}:${updatedMinutes.toString().padStart(2, '0')}`;
+  
+  console.log(delayUpadate);
+  setUpdateETD(updatedTime);
+}
+
 const handleEditButton = (index, item) => {
   setEditRowIndex(index);
   setflightId(item.ID);
+  setEstimatedTime(null);
+  setUpdateETD(item.ETD);
+  // handleEstimatedUpdates(item.ETD);
+  console.log(item.ETD)
 };
+
 
 const handleUpdateButton = async () => {
 
@@ -117,17 +137,6 @@ const handleUpdateButton = async () => {
   // Implement your update logic here
   setEditRowIndex(null); // Reset editRowIndex after updating
   
-};
-
-
-const addDelayToEstimatedTime = (estimatedTime) => {
-  const [estimatedHours, estimatedMinutes] = estimatedTime.split(':').map(Number);
-  const totalEstimatedMinutes = estimatedHours * 60 + estimatedMinutes;
-  const updatedTotalMinutes = totalEstimatedMinutes + parseInt(delayUpadate, 10);
-  const updatedHours = Math.floor(updatedTotalMinutes / 60);
-  const updatedMinutes = updatedTotalMinutes % 60;
-  const updatedTime = `${updatedHours.toString().padStart(2, '0')}:${updatedMinutes.toString().padStart(2, '0')}`;
-  return updatedTime
 };
 
 
@@ -162,7 +171,7 @@ return (
             {editRowIndex === index ? (
               <input 
                 type="text" 
-                value={addDelayToEstimatedTime(item.ETD)} 
+                value={updateETD} 
                 readOnly
                 className='editable' 
                 style={{display: 'block'}}
@@ -175,7 +184,7 @@ return (
 
             <StyledTableCell align="center" style={{color: item.DELAY === 'No Delay' ? '#0FFF50' : 'red'}}> 
             {editRowIndex === index ? (
-              <input type="number" onChange={e => setDelayUpdate(e.target.value)} className='editable' style={{display: 'block'}} />
+              <input type="number" onChange={e => handleEstimatedUpdates(e.target.value, item.ETD)} className='editable' style={{display: 'block'}} />
             ) : (
               <span>{item.DELAY}</span>
             )}
