@@ -37,7 +37,7 @@ function Items() {
   const [data, setData] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(1);
   const batchSize = 8;
-  const displayDuration = 10000; // 10 seconds
+  const displayDuration = 3000; // 10 seconds
 
   // const totalPages = Math.ceil(data.length / batchSize);
   const startIndex = (currentIndex - 1) * batchSize;
@@ -110,12 +110,14 @@ return (
           <TableRow >
             <StyledTableCell>STD</StyledTableCell>
             <StyledTableCell>ETD</StyledTableCell>
-            <StyledTableCell align="center">Delay</StyledTableCell>
+            <StyledTableCell align="center">DELAY</StyledTableCell>
             <StyledTableCell align="center"></StyledTableCell>
-            <StyledTableCell align="center"></StyledTableCell>
-            <StyledTableCell align="center">To</StyledTableCell>
-            <StyledTableCell align="center">Gate</StyledTableCell>
-            <StyledTableCell align="center">Remarks</StyledTableCell>
+            <StyledTableCell align="center">ID</StyledTableCell>
+            {/* <StyledTableCell align="center">FROM</StyledTableCell> */}
+            <StyledTableCell align="center">TO</StyledTableCell>
+            <StyledTableCell align="center">DAYS</StyledTableCell>
+            <StyledTableCell align="center">GATE</StyledTableCell>
+            <StyledTableCell align="center">REMARK</StyledTableCell>
           </TableRow>
         </TableHead>
         
@@ -134,7 +136,9 @@ return (
             <StyledTableCell align="center" style={{color: item.DELAY === 'No Delay' ? '#0FFF50' : 'red'}}>{item.DELAY}</StyledTableCell>
             <StyledTableCell align="center"><div className="logo-cell"><img src={item.LOGO} alt="" /></div></StyledTableCell>
             <StyledTableCell align="center">{item.ID}</StyledTableCell>
-            <StyledTableCell align="center">{item.DESTINATION}</StyledTableCell>
+            {/* <StyledTableCell align="center">{item.FROM}</StyledTableCell> */}
+            <StyledTableCell  align="center">{item.DESTINATION}</StyledTableCell>
+            <StyledTableCell align="center">{item.DAYS}</StyledTableCell>
             <StyledTableCell align="center">{item.GATE}</StyledTableCell>
             <StyledTableCell align="center" ><span style={{color: "#FFDB00"}}>{item.REMARK}</span></StyledTableCell>
 
