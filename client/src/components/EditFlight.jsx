@@ -153,7 +153,7 @@ return (
             <StyledTableCell align="center">DELAY</StyledTableCell>
             <StyledTableCell align="center"></StyledTableCell>
             <StyledTableCell align="center">ID</StyledTableCell>
-            <StyledTableCell align="center">FROM</StyledTableCell>
+         {/* <StyledTableCell align="center">FROM</StyledTableCell> */}
             <StyledTableCell align="center">TO</StyledTableCell>
             <StyledTableCell align="center">DAYS</StyledTableCell>
             <StyledTableCell align="center">GATE</StyledTableCell>
@@ -193,7 +193,7 @@ return (
             </StyledTableCell>
             <StyledTableCell align="center"><div className="logo-cell"><img src={item.LOGO} alt="" /></div></StyledTableCell>
             <StyledTableCell align="center">{item.ID}</StyledTableCell>
-            <StyledTableCell align="center">{item.FROM}</StyledTableCell>
+            {/* <StyledTableCell align="center">{item.FROM}</StyledTableCell> */}
             <StyledTableCell align="center">{item.DESTINATION}</StyledTableCell>
 
             <StyledTableCell align="center">
