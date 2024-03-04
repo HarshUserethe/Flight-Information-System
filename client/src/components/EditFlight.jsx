@@ -9,7 +9,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import axios from 'axios'; 
+import axios from 'axios';
+import FlightsTable from './FlightsTable';
+import UpdateArr from './UpdateArr';
+
 
 const StyledTableCell = styled(TableCell)(() => ({
     [`&.${tableCellClasses.head}`]: {
@@ -38,7 +41,7 @@ const StyledTableCell = styled(TableCell)(() => ({
    }
 
 
-function Items() {
+function EditFlight() {
 
   const [data, setData] = useState([]);
   const [delayUpadate, setDelayUpdate] = useState(0);
@@ -49,8 +52,9 @@ function Items() {
   const [flightid, setflightId] = useState(null);
   const [updateETD, setUpdateETD] = useState();
   const [estimatedTime, setEstimatedTime] = useState(null);
+  const [timeInHours, setTimeInHours] = useState(null);
   const batchSize = 8;
-   
+ 
   
   const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false });
   const filteredData = data.filter(item => {
@@ -83,12 +87,13 @@ function Items() {
     };
    }
    
-   
-   const interval = setInterval(() => {
-     flightDataServer();
-}, 1000);
 
-return () => clearInterval(interval);
+    flightDataServer();
+ setInterval(() => {
+    flightDataServer();
+ }, 1000);
+   
+
 }, [pageItems.length]);
 
 
@@ -111,14 +116,20 @@ for (let i = 0; i < emptyDivsCount; i++) {
 const handleEstimatedUpdates = (delayTime, estimatedTime) => {
  
   const [estimatedHours, estimatedMinutes] = estimatedTime.split(':').map(Number);
-  const totalEstimatedMinutes = estimatedHours * 60 + estimatedMinutes;
-  const updatedTotalMinutes = totalEstimatedMinutes + parseInt(delayTime, 10);
-  const updatedHours = Math.floor(updatedTotalMinutes / 60);
-  const updatedMinutes = updatedTotalMinutes % 60;
-  const updatedTime = `${updatedHours.toString().padStart(2, '0')}:${updatedMinutes.toString().padStart(2, '0')}`;
-  
-  
-  setUpdateETD(updatedTime);
+    const totalEstimatedMinutes = estimatedHours * 60 + estimatedMinutes;
+    const updatedTotalMinutes = totalEstimatedMinutes + parseInt(delayTime, 10);
+
+    // Handle rollover if the updated time exceeds 24 hours
+    const updatedHours = (updatedTotalMinutes / 60) % 24;
+    const updatedMinutes = updatedTotalMinutes % 60;
+    
+    // Convert negative time to positive
+    const positiveHours = updatedHours >= 0 ? updatedHours : updatedHours + 24;
+
+    // Format the updated time
+    const updatedTime = `${String(Math.floor(positiveHours)).padStart(2, '0')}:${String(updatedMinutes).padStart(2, '0')}`;
+
+    setUpdateETD(updatedTime);
 }
 
 const handleEditButton = (index, item) => {
@@ -127,7 +138,12 @@ const handleEditButton = (index, item) => {
   setEstimatedTime(null);
   setUpdateETD(item.ETD);
   // handleEstimatedUpdates(item.ETD);
-   
+  console.log(item.ETD)
+  console.log(item.REMARK);
+  console.log(item.GATE);
+  setRemarkUpdate(item.REMARK);
+  setGateUpdate(item.GATE);
+  setTimeInHours('00:00');
 };
 
 
@@ -135,15 +151,30 @@ const handleUpdateButton = async () => {
 
   const response = await axios.patch(`https://flight-information-server.onrender.com/api/update/${flightid}/${updateETD}/${gateUpdate}/${remarkUpdate}/${delayMin}`);
   console.log(response)
-   
+  console.log(delayUpadate);
   // Implement your update logic here
   setEditRowIndex(null); // Reset editRowIndex after updating
   
 };
 
- 
+const converMinIntoHour = (delayTimeInMin) => {
+  const hours = Math.floor(delayTimeInMin / 60);
+  const remainingMinutes = delayTimeInMin % 60;
+  
+  // Formatting hours and minutes
+  const formattedHours = String(hours).padStart(2, '0');
+  const formattedMinutes = String(remainingMinutes).padStart(2, '0');
+  
+  setTimeInHours(`${formattedHours}:${formattedMinutes}`);
+}
+
+
 return (
         <div className="item">
+          <div className="switchPannel">
+          <FlightsTable />
+          <UpdateArr />
+          </div>
    <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
@@ -153,7 +184,7 @@ return (
             <StyledTableCell className='tv' align="center">DELAY</StyledTableCell>
             <StyledTableCell className='tv' align="center"></StyledTableCell>
             <StyledTableCell className='tv' align="center">ID</StyledTableCell>
-         {/* <StyledTableCell align="center">FROM</StyledTableCell> */}
+            {/* <StyledTableCell align="center">FROM</StyledTableCell> */}
             <StyledTableCell className='tv' align="center">TO</StyledTableCell>
             <StyledTableCell className='tv' align="center">DAYS</StyledTableCell>
             <StyledTableCell className='tv' align="center">GATE</StyledTableCell>
@@ -186,14 +217,18 @@ return (
 
             <StyledTableCell className='col' align="center" style={{color: item.DELAY === 'No Delay' ? '#0FFF50' : 'red'}}> 
             {editRowIndex === index ? (
-              <input type="number" onChange={e => {handleEstimatedUpdates(e.target.value, item.ETD), setDelayMin(e.target.value)}} className='editable' style={{display: 'block'}} />
+             <div className='displayHour'>
+              <input type="number"  onChange={e => {handleEstimatedUpdates(e.target.value, item.STD), setDelayMin(e.target.value), converMinIntoHour(e.target.value)}} className='editable' style={{display: 'block'}} />
+              <span style={{fontSize:"1vw"}}>{timeInHours}</span>
+             </div>
+        
             ) : (
-              <span>{item.DELAY}</span>
+              <span>{item.DELAY} Min</span>
             )}
             </StyledTableCell>
             <StyledTableCell className='col' align="center"><div className="logo-cell"><img src={item.LOGO} alt="" /></div></StyledTableCell>
             <StyledTableCell className='col' align="center">{item.ID}</StyledTableCell>
-            {/* <StyledTableCell align="center">{item.FROM}</StyledTableCell> */}
+            {/* <StyledTableCell className='col' align="center">{item.FROM}</StyledTableCell> */}
             <StyledTableCell className='col' align="center">{item.DESTINATION}</StyledTableCell>
 
             <StyledTableCell className='col' align="center">
@@ -201,16 +236,32 @@ return (
                 </StyledTableCell>
 
             <StyledTableCell className='col' align="center">
+            <span style={{color: "#FFDB00"}}>
             {editRowIndex === index ? (
-              <input type="text" onChange={e => setGateUpdate(e.target.value)} className='editable' style={{display: 'block'}} />
-            ) : (
-              <span>{item.GATE}</span>
-            )}
+                <select value={gateUpdate} onChange={e => setGateUpdate(e.target.value)} id="mySelect" style={{display: 'block'}}>
+                  <option value="Updating">select</option>
+                  <option value="G1">G1</option>
+                  <option value="G2">G2</option>
+                  <option value="G3">G3</option>
+                  <option value="G4">G4</option>
+                  <option value="G5">G5</option>
+                  <option value="G6">G6</option>
+                  <option value="G7">G7</option>
+                  <option value="G8">G8</option>
+                  <option value="G9">G9</option>
+                  <option value="G10">G10</option>
+                  
+                </select>
+              ) : (
+                <span>{item.GATE}</span>
+              )}
+
+                </span>
             </StyledTableCell>
             <StyledTableCell className='col' align="center" >
             <span style={{color: "#FFDB00"}}>
             {editRowIndex === index ? (
-                <select onChange={e => setRemarkUpdate(e.target.value)} id="mySelect" style={{display: 'block'}}>
+                <select value={remarkUpdate} onChange={e => setRemarkUpdate(e.target.value)} id="mySelect" style={{display: 'block'}}>
                   <option value="Updating">select</option>
                   <option value="On Time">On Time</option>
                   <option value="Delay">Delay</option>
@@ -245,4 +296,4 @@ return (
     )
 }
 
-export default Items
+export default EditFlight

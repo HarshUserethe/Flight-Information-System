@@ -1,11 +1,14 @@
 import './App.css'
-import FlightsTable from './components/FlightsTable'
 import List from './components/List'
 import CIcon from '@coreui/icons-react';
 import * as icon from '@coreui/icons';
 import Admin from './components/Admin';
 import { HashRouter, Routes, Route} from 'react-router-dom';
 import EditFlight from './components/EditFlight';
+import ArrivalPage from './components/ArrivalPage';
+import UpdateArrival from './components/UpdateArrival';
+ 
+
 
 
  
@@ -22,14 +25,13 @@ function App() {
         <h2>Jay Prakash Narayan International Airport</h2>
    
       </div>
-      <FlightsTable />
-      
 
       <Routes>
       <Route path="/admin/update" element={<EditFlight />} />
       <Route path="/admin/login" element={<Admin />} />
+      <Route path="/admin/arrival" element={<UpdateArrival />} />
+      <Route path="/arrival" element={<ArrivalPage />} />
       <Route path="/" element={<List />} />
-      
       </Routes>
 
     </div>

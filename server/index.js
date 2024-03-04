@@ -29,8 +29,8 @@ connection.connect((err) => {
 
 // WebSocket server
 wss.on('connection', (ws) => {
-  console.log('Client connected');
-
+   
+   console.log('Client connected');
   // Send initial data to client upon connection
   connection.query('SELECT * FROM flight', (error, results) => {
     if (error) {
@@ -94,7 +94,7 @@ app.patch('/api/update/:id/:etd/:gate/:remark/:delay', (req, res) => {
   const ETD = req.params.etd;
   const GATE = req.params.gate;
   const REMARK = req.params.remark;
-  const DELAY = req.params.delay+` Min`;
+  const DELAY = req.params.delay;
 
 
   console.log(ETD, GATE, REMARK, DELAY, ID);

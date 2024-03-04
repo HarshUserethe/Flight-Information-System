@@ -9,7 +9,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import FlightDep from './FlightDep';
+import FlightArr from './FlightArr';
+ 
+
 
  
 
@@ -32,9 +34,10 @@ const StyledTableCell = styled(TableCell)(() => ({
   }));
   
  
+ 
 
 
-function Items() {
+function ArrivalPage() {
 
   const [data, setData] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(1);
@@ -56,7 +59,7 @@ function Items() {
 
   useEffect(() => {
    function flightDataServer(){
-    const socket = new WebSocket('wss://flight-information-server.onrender.com');
+    const socket = new WebSocket('ws://localhost:8080');
 
     socket.onopen = () => {
       console.log('Connected to WebSocket server');
@@ -106,24 +109,23 @@ for (let i = 0; i < emptyDivsCount; i++) {
 }
 
 
-
 return (
         <div className="item">
-          <FlightDep />
+          <FlightArr />
   <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow >
-            <StyledTableCell className='tv'>STD</StyledTableCell>
-            <StyledTableCell className='tv'>ETD</StyledTableCell>
-            <StyledTableCell className='tv' align="center">DELAY</StyledTableCell>
-            <StyledTableCell className='tv' align="center"></StyledTableCell>
-            <StyledTableCell className='tv' align="center">FLIGHT NUMBER</StyledTableCell>
-            {/* <StyledTableCell align="center">FROM</StyledTableCell> */}
-            <StyledTableCell className='tv' align="center">TO</StyledTableCell>
-            {/* <StyledTableCell className='tv' align="center">DAYS</StyledTableCell> */}
-            <StyledTableCell className='tv' align="center">GATE</StyledTableCell>
-            <StyledTableCell className='tv' align="center">REMARK</StyledTableCell>
+            <StyledTableCell className='arr'>STA</StyledTableCell>
+            <StyledTableCell className='arr'>ETA</StyledTableCell>
+            {/* <StyledTableCell className='arr' align="center">DELAY</StyledTableCell> */}
+            <StyledTableCell className='arr' align="center"></StyledTableCell>
+            <StyledTableCell className='arr' align="center">FLIGHT NUMBER</StyledTableCell>
+            <StyledTableCell className='arr' align="center">FROM</StyledTableCell>
+            <StyledTableCell className='arr' align="center">TO</StyledTableCell>
+            {/* <StyledTableCell className='arr' align="center">DAYS</StyledTableCell> */}
+            <StyledTableCell className='arr' align="center">GATE</StyledTableCell>
+            <StyledTableCell className='arr' align="center">REMARK</StyledTableCell>
           </TableRow>
         </TableHead>
         
@@ -139,10 +141,10 @@ return (
             <StyledTableCell className='col' component="th" scope="row">
                 {item.ETD}
             </StyledTableCell>
-            <StyledTableCell className='col' align="center" style={{color: item.DELAY === 'No Delay' ? '#0FFF50' : 'red'}}>{item.DELAY} Min</StyledTableCell>
+            {/* <StyledTableCell className='col' align="center" style={{color: item.DELAY === 'No Delay' ? '#0FFF50' : 'red'}}>{item.DELAY} Min</StyledTableCell> */}
             <StyledTableCell className='col' align="center"><div className="logo-cell"><img src={item.LOGO} alt="" /></div></StyledTableCell>
             <StyledTableCell className='col' align="center">{item.ID}</StyledTableCell>
-            {/* <StyledTableCell align="center">{item.FROM}</StyledTableCell> */}
+            <StyledTableCell className='col' align="center">{item.FROM}</StyledTableCell>
             <StyledTableCell className='col'  align="center">{item.DESTINATION}</StyledTableCell>
             {/* <StyledTableCell className='col' align="center">{item.DAYS}</StyledTableCell> */}
             <StyledTableCell className='col' align="center">{item.GATE}</StyledTableCell>
@@ -171,4 +173,4 @@ return (
     )
 }
 
-export default Items
+export default ArrivalPage

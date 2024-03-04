@@ -16,7 +16,6 @@ html,body{
   height: 100vh;
   background-color: #fff; 
   color: #fff;
-  padding: 5px;
 }
 .top-heading-bar{
   width: 100%;
@@ -98,11 +97,12 @@ li{
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: -1%;
-  margin-top: 4%;
+  margin-left: 0%;
+  margin-top: 2.5%;
   position: absolute;
-  width:  8vw;
-  height: 7vw;
+  width: 7vw;
+  padding: 10px;
+  height: 6vw;
   border-radius: 10px;
 }
 .odd:nth-child(even){
@@ -319,16 +319,50 @@ label{
   background: #2AD705;
   color: #ffffff;
 }
-
+.col{
+  text-transform: uppercase !important;
+ }
+ .tv{
+  background-color: maroon !important;
+  color: #fff !important;
+  border-top: 1px solid #fff !important;
+ }
+ .displayHour{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+ }
+ .switchPannel{
+  display: flex;
+ }
+ .arr{
+  background-color: navy !important;
+  color: #fff !important;
+  border-top: 1px solid #fff;
+ }
+ .custom-active {
+  /* Add your custom styles for the active link */
+  text-decoration: underline !important;
+  color: red !important; /* Example: changing text color */
+  font-weight: bold !important; /* Example: making the text bold */
+}
+.table-conatianer>.title>a.active{
+  background-color: #000;
+  color: #fff;
+}
 @media only screen and (min-width: 1500px) {
   /* CSS rules specific to screens with a minimum width of 1500px */
  .tv{
   font-size: 1.3vw !important;
   padding-top: 2vw;
+
  }
 
  .col{
   font-size: 1.3vw !important;
+  text-transform: uppercase !important;
  }
   /* Add more CSS rules as needed */
 }
