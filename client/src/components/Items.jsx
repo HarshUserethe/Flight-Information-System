@@ -73,12 +73,13 @@ function Items() {
       socket.close();
     };
    }
-   
-   
+
+  setInterval(() => {
    flightDataServer();
+}, 1000);
+   
    const interval = setInterval(() => {
    setCurrentIndex(prevIndex => (prevIndex % totalPages) + 1);
-   flightDataServer();
 }, displayDuration);
 
 return () => clearInterval(interval);
