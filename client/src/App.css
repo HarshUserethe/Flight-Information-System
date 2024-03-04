@@ -319,3 +319,16 @@ label{
   background: #2AD705;
   color: #ffffff;
 }
+
+@media only screen and (min-width: 1500px) {
+  /* CSS rules specific to screens with a minimum width of 1500px */
+ .tv{
+  font-size: 1.3vw !important;
+  padding-top: 2vw;
+ }
+
+ .col{
+  font-size: 1.3vw !important;
+ }
+  /* Add more CSS rules as needed */
+}
