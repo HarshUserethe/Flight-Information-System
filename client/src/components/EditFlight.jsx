@@ -148,17 +148,17 @@ return (
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow >
-            <StyledTableCell>STD</StyledTableCell>
-            <StyledTableCell>ETD</StyledTableCell>
-            <StyledTableCell align="center">DELAY</StyledTableCell>
-            <StyledTableCell align="center"></StyledTableCell>
-            <StyledTableCell align="center">ID</StyledTableCell>
+            <StyledTableCell className='tv'>STD</StyledTableCell>
+            <StyledTableCell className='tv'>ETD</StyledTableCell>
+            <StyledTableCell className='tv' align="center">DELAY</StyledTableCell>
+            <StyledTableCell className='tv' align="center"></StyledTableCell>
+            <StyledTableCell className='tv' align="center">ID</StyledTableCell>
          {/* <StyledTableCell align="center">FROM</StyledTableCell> */}
-            <StyledTableCell align="center">TO</StyledTableCell>
-            <StyledTableCell align="center">DAYS</StyledTableCell>
-            <StyledTableCell align="center">GATE</StyledTableCell>
-            <StyledTableCell align="center">REMARK</StyledTableCell>
-            <StyledTableCell align="center">EDIT</StyledTableCell>
+            <StyledTableCell className='tv' align="center">TO</StyledTableCell>
+            <StyledTableCell className='tv' align="center">DAYS</StyledTableCell>
+            <StyledTableCell className='tv' align="center">GATE</StyledTableCell>
+            <StyledTableCell className='tv' align="center">REMARK</StyledTableCell>
+            <StyledTableCell className='tv' align="center">EDIT</StyledTableCell>
           </TableRow>
         </TableHead>
         
@@ -168,8 +168,8 @@ return (
           return(
             <TableBody className='odd' key={index}> 
             
-            <StyledTableCell component="th" scope="row" style={{color: "#FFDB00"}}>{item.STD}</StyledTableCell>
-            <StyledTableCell component="th" scope="row">
+            <StyledTableCell className='col' component="th" scope="row" style={{color: "#FFDB00"}}>{item.STD}</StyledTableCell>
+            <StyledTableCell className='col' component="th" scope="row">
             {editRowIndex === index ? (
               <input 
                 type="text" 
@@ -184,30 +184,30 @@ return (
             )}
             </StyledTableCell>
 
-            <StyledTableCell align="center" style={{color: item.DELAY === 'No Delay' ? '#0FFF50' : 'red'}}> 
+            <StyledTableCell className='col' align="center" style={{color: item.DELAY === 'No Delay' ? '#0FFF50' : 'red'}}> 
             {editRowIndex === index ? (
               <input type="number" onChange={e => {handleEstimatedUpdates(e.target.value, item.ETD), setDelayMin(e.target.value)}} className='editable' style={{display: 'block'}} />
             ) : (
               <span>{item.DELAY}</span>
             )}
             </StyledTableCell>
-            <StyledTableCell align="center"><div className="logo-cell"><img src={item.LOGO} alt="" /></div></StyledTableCell>
-            <StyledTableCell align="center">{item.ID}</StyledTableCell>
+            <StyledTableCell className='col' align="center"><div className="logo-cell"><img src={item.LOGO} alt="" /></div></StyledTableCell>
+            <StyledTableCell className='col' align="center">{item.ID}</StyledTableCell>
             {/* <StyledTableCell align="center">{item.FROM}</StyledTableCell> */}
-            <StyledTableCell align="center">{item.DESTINATION}</StyledTableCell>
+            <StyledTableCell className='col' align="center">{item.DESTINATION}</StyledTableCell>
 
-            <StyledTableCell align="center">
+            <StyledTableCell className='col' align="center">
                 {item.DAYS}
                 </StyledTableCell>
 
-            <StyledTableCell align="center">
+            <StyledTableCell className='col' align="center">
             {editRowIndex === index ? (
               <input type="text" onChange={e => setGateUpdate(e.target.value)} className='editable' style={{display: 'block'}} />
             ) : (
               <span>{item.GATE}</span>
             )}
             </StyledTableCell>
-            <StyledTableCell align="center" >
+            <StyledTableCell className='col' align="center" >
             <span style={{color: "#FFDB00"}}>
             {editRowIndex === index ? (
                 <select onChange={e => setRemarkUpdate(e.target.value)} id="mySelect" style={{display: 'block'}}>
@@ -223,7 +223,7 @@ return (
 
                 </span>
              </StyledTableCell>
-            <StyledTableCell align="center" >
+            <StyledTableCell className='col' align="center" >
             {editRowIndex === index ? (
               <>
                 <span onClick={() => setEditRowIndex(null)} style={editStyle}>Cancel</span>
