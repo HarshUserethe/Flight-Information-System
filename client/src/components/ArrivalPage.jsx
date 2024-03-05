@@ -165,7 +165,7 @@ return (
 
         {pageItems.map((item, index) => {
           return(
-            <TableBody className='odd' key={index} sx={{ padding: "50px" }}> 
+            <TableBody className='odd' key={index} sx={{ padding: "0px" }}> 
             
             <StyledTableCell className='col' component="th" scope="row" style={{color: "#FFDB00"}}>
                 {item.STD}
