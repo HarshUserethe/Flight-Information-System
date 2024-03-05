@@ -70,7 +70,7 @@ function EditFlight() {
    useEffect(() => {
     async function testAPI(){
      try {
-      const response = await axios.get('http://localhost:8080/api/data') ;
+      const response = await axios.get('https://flight-information-server.onrender.com/api/data') ;
       setData(response.data);
       setIsUpdate(false);
      } catch (error) {
@@ -166,7 +166,7 @@ const handleEditButton = (index, item) => {
 const handleUpdateButton = async () => {
 
  try{
-  const response = await axios.patch(`http://localhost:8080/api/update/${flightid}/${updateETD}/${gateUpdate}/${remarkUpdate}/${delayMin}`);
+  const response = await axios.patch(`https://flight-information-server.onrender.com/api/update/${flightid}/${updateETD}/${gateUpdate}/${remarkUpdate}/${delayMin}`);
   setIsUpdate(true);
   console.log(response)
   console.log(delayUpadate);
