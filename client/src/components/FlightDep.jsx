@@ -10,7 +10,7 @@ const spanStyle = {
 
 function FlightsTable() {
   const switchBetweenPage = () => {
-    window.open("http://localhost:5173/#/arrival", "_blank");
+    window.open("https://flight-information-system.vercel.app/#/arrival", "_blank");
   };
 
   return (
