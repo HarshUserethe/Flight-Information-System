@@ -41,7 +41,7 @@ function Items() {
 
   const [data, setData] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(1);
-  const batchSize = 9;
+  const batchSize = 8;
   const displayDuration = 10000; // 10 seconds
  
   const startIndex = (currentIndex - 1) * batchSize;
