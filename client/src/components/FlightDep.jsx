@@ -1,11 +1,12 @@
 import "../App.css";
 
 const spanStyle = {
-  fontWeight: 600,
-  fontSize: "1.8vw",
-  cursor: "pointer",
-  position: "absolute",
-  top: "5.5vw",
+    fontWeight: 600,
+    fontSize: "1.8vw",
+    cursor: "pointer",
+    position: "absolute",
+    top: "4vw",
+    marginLeft: "0.5vw",
 };
 
 function FlightsTable() {
