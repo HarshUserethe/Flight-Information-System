@@ -19,7 +19,7 @@ const connection = mysql.createConnection({
 });
 
 app.use(cors({
-  https://flight-information-system.vercel.app/
+  https://flight-information-system.vercel.app
 }));
 
 //express chaching
