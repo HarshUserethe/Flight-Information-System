@@ -10,6 +10,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import FlightDep from './FlightDep';
+import TakeOffIcon from './TakeOffIcon';
+import DateTime from './DateTime';
+import axios from 'axios';
 
  
 
@@ -40,7 +43,7 @@ function Items() {
   const [currentIndex, setCurrentIndex] = useState(1);
   const batchSize = 9;
   const displayDuration = 10000; // 10 seconds
-
+ 
   const startIndex = (currentIndex - 1) * batchSize;
   const endIndex = Math.min(startIndex + batchSize, data.length);
   
@@ -54,41 +57,69 @@ function Items() {
   const pageItems = filteredData.slice(startIndex, endIndex);
   const totalPages = Math.ceil(filteredData.length / batchSize);
 
+  //api testing --->
   useEffect(() => {
-   function flightDataServer(){
-    const socket = new WebSocket('wss://flight-information-server.onrender.com');
+    async function testAPI(){
+     try {
+      const response = await axios.get('http://localhost:8080/api/data') ;
+      setData(response.data);
+     } catch (error) {
+      console.log(error);
+     }
+    }
 
-    socket.onopen = () => {
-      console.log('Connected to WebSocket server');
-    };
+    setInterval(() => {
+      testAPI();
+    }, 1000)
 
-    socket.onmessage = (event) => {
-      const newData = JSON.parse(event.data);
-      setData(newData);
-    };
-
-    socket.onclose = () => {
-      console.log('Disconnected from WebSocket server');
-    };
-
-    return () => {
-      socket.close();
-    };
-   }
+    const interval = setInterval(() => {
+      setCurrentIndex(prevIndex => (prevIndex % totalPages) + 1);
+   }, displayDuration);
    
-  setInterval(() => {
-    flightDataServer();
- }, 1000);
    
+   return () => clearInterval(interval);
+  }, [totalPages, displayDuration])
+
+  // useEffect(() => {
   
-   const interval = setInterval(() => {
-   setCurrentIndex(prevIndex => (prevIndex % totalPages) + 1);
-}, displayDuration);
+//    function flightDataServer(){
+//     const socket = new WebSocket('wss://fddsbackend.onrender.com');
 
-return () => clearInterval(interval);
-}, [totalPages, displayDuration]);
+//     socket.onopen = () => {
+//       console.log('Connected to WebSocket server');
+//     };
 
- 
+//     socket.onmessage = (event) => {
+//       const newData = JSON.parse(event.data);
+//       setData(newData);
+//     };
+
+//     socket.onclose = () => {
+//       console.log('Disconnected from WebSocket server');
+//     };
+
+//     return () => {
+//       socket.close();
+//     };
+//    }
+   
+// setInterval(() => {
+//     flightDataServer();
+//  }, 1000);
+  
+//  setTimeout(() => {
+//   clearInterval(dataInterval);
+// }, 5000);
+  
+//    const interval = setInterval(() => {
+//    setCurrentIndex(prevIndex => (prevIndex % totalPages) + 1);
+// }, displayDuration);
+
+
+// return () => clearInterval(interval);
+// }, [totalPages, displayDuration]);
+
+
 
 
 const emptyDivsCount = batchSize - pageItems.length;
@@ -109,6 +140,11 @@ for (let i = 0; i < emptyDivsCount; i++) {
 
 return (
         <div className="item">
+        <div className="top-heading-bar"> 
+        <DateTime />
+        <div className="icon"><TakeOffIcon /></div>
+        <h2>Jay Prakash Narayan International Airport</h2>
+      </div>
           <FlightDep />
   <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -116,9 +152,9 @@ return (
           <TableRow >
             <StyledTableCell className='tv'>STD</StyledTableCell>
             <StyledTableCell className='tv'>ETD</StyledTableCell>
-            <StyledTableCell className='tv' align="center">DELAY</StyledTableCell>
-            <StyledTableCell className='tv' align="center"></StyledTableCell>
-            <StyledTableCell className='tv' align="center">FLIGHT NUMBER</StyledTableCell>
+            {/* <StyledTableCell className='tv' align="center">DELAY</StyledTableCell> */}
+            <StyledTableCell className='tv' align="center">AIRLINE</StyledTableCell>
+            <StyledTableCell className='tv' align="center">FLIGHT NO.</StyledTableCell>
             {/* <StyledTableCell align="center">FROM</StyledTableCell> */}
             <StyledTableCell className='tv' align="center">TO</StyledTableCell>
             {/* <StyledTableCell className='tv' align="center">DAYS</StyledTableCell> */}
@@ -139,7 +175,7 @@ return (
             <StyledTableCell className='col' component="th" scope="row">
                 {item.ETD}
             </StyledTableCell>
-            <StyledTableCell className='col' align="center" style={{color: item.DELAY === 'No Delay' ? '#0FFF50' : 'red'}}>{item.DELAY} Min</StyledTableCell>
+            {/* <StyledTableCell className='col' align="center" style={{color: item.DELAY === 'No Delay' ? '#0FFF50' : 'red'}}>{item.DELAY} Min</StyledTableCell> */}
             <StyledTableCell className='col' align="center"><div className="logo-cell"><img src={item.LOGO} alt="" /></div></StyledTableCell>
             <StyledTableCell className='col' align="center">{item.ID}</StyledTableCell>
             {/* <StyledTableCell align="center">{item.FROM}</StyledTableCell> */}

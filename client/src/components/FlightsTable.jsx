@@ -1,5 +1,10 @@
 import '../App.css'
 import { NavLink } from 'react-router-dom'
+const spanStyle = {
+  fontWeight: 600,
+  fontSize: "1.8vw",
+  cursor: "pointer",
+};
 
 function FlightsTable() {
 
@@ -10,9 +15,9 @@ function FlightsTable() {
   return (
     <div className="table-conatianer" onClick={handleClick}>
         <div className="title">
-        <NavLink exact to="/admin/update" style={{textTransform: "uppercase"}}>
+        <NavLink exact to="/admin/update" style={{textTransform: "uppercase"}} activeClassName="active-link">
           <h2>
-            <span style={{ fontWeight: "600", fontSize: "1.8vw", cursor: "pointer" }}>Update Departure</span>
+            <span style={spanStyle}>Update Departure</span>
           </h2>
         </NavLink>
         </div>

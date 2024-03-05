@@ -10,6 +10,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import FlightArr from './FlightArr';
+import LandingIcon from './LandingIcon';
+import axios from 'axios';
  
 
 
@@ -57,39 +59,63 @@ function ArrivalPage() {
   const pageItems = filteredData.slice(startIndex, endIndex);
   const totalPages = Math.ceil(filteredData.length / batchSize);
 
+
+  //api testing --->
   useEffect(() => {
-   function flightDataServer(){
-    const socket = new WebSocket('wss://flight-information-server.onrender.com');
+    async function testAPI(){
+     try {
+      const response = await axios.get('http://localhost:8080/api/data') ;
+      setData(response.data);
+     } catch (error) {
+      console.log(error);
+     }
+    }
 
-    socket.onopen = () => {
-      console.log('Connected to WebSocket server');
-    };
+    setInterval(() => {
+      testAPI();
+    }, 1000)
 
-    socket.onmessage = (event) => {
-      const newData = JSON.parse(event.data);
-      setData(newData);
-    };
-
-    socket.onclose = () => {
-      console.log('Disconnected from WebSocket server');
-    };
-
-    return () => {
-      socket.close();
-    };
-   }
+    const interval = setInterval(() => {
+      setCurrentIndex(prevIndex => (prevIndex % totalPages) + 1);
+   }, displayDuration);
    
-  setInterval(() => {
-    flightDataServer();
- }, 1000);
+   
+   return () => clearInterval(interval);
+  }, [totalPages, displayDuration])
+
+//   useEffect(() => {
+//    function flightDataServer(){
+//     const socket = new WebSocket('wss://fddsbackend.onrender.com');
+
+//     socket.onopen = () => {
+//       console.log('Connected to WebSocket server');
+//     };
+
+//     socket.onmessage = (event) => {
+//       const newData = JSON.parse(event.data);
+//       setData(newData);
+//     };
+
+//     socket.onclose = () => {
+//       console.log('Disconnected from WebSocket server');
+//     };
+
+//     return () => {
+//       socket.close();
+//     };
+//    }
+   
+//   setInterval(() => {
+//     flightDataServer();
+//  }, 1000);
    
   
-   const interval = setInterval(() => {
-   setCurrentIndex(prevIndex => (prevIndex % totalPages) + 1);
-}, displayDuration);
+//    const interval = setInterval(() => {
+//    setCurrentIndex(prevIndex => (prevIndex % totalPages) + 1);
+// }, displayDuration);
 
-return () => clearInterval(interval);
-}, [totalPages, displayDuration]);
+// return () => clearInterval(interval);
+// }, [totalPages, displayDuration]);
 
  
 
@@ -111,6 +137,10 @@ for (let i = 0; i < emptyDivsCount; i++) {
 
 return (
         <div className="item">
+           <div className="top-heading-bar"> 
+        <div className="icon"><LandingIcon /></div>
+        <h2>Jay Prakash Narayan International Airport</h2>
+      </div>
           <FlightArr />
   <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">

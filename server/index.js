@@ -9,7 +9,7 @@ const wss = new WebSocket.Server({ server });
 const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
-app.use(cors())
+
 // Create MySQL connection
 const connection = mysql.createConnection({
   host: process.env.HOST_NAME,
@@ -17,6 +17,30 @@ const connection = mysql.createConnection({
   password: process.env.HOST_PASSWORD,
   database: process.env.DATABASE
 });
+
+app.use(cors({
+  origin: 'http://localhost:5173'
+}));
+//express chaching
+const expressCacheMiddleware = require('express-cache-middleware');
+const cacheMiddleware = new expressCacheMiddleware({
+  // Configure caching options here (e.g., expire time)
+  cacheTime: 1000 * 60 * 5, // Cache for 5 minutes
+  keyGenerator: (req, res) => req.url, // Custom key generation (optional)
+});
+
+//data fetching api
+app.get('/api/data', cors(), async (req, res)=> {
+  connection.query('SELECT * FROM flight', (error, results, fields) => {
+    if (error) {
+      console.error('Error executing MySQL query: ' + error.stack);
+      res.status(500).send('Error fetching data from MySQL');
+      return;
+    }
+    // Send the fetched data as a response
+    res.json(results);
+  });
+})
 
 // Connect to MySQL
 connection.connect((err) => {

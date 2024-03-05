@@ -14,7 +14,7 @@ html,body{
 .main{
   width: 100vw;
   height: 100vh;
-  background-color: #fff; 
+  background-color: #FFDB00; 
   color: #fff;
 }
 .top-heading-bar{
@@ -349,8 +349,13 @@ label{
   font-weight: bold !important; /* Example: making the text bold */
 }
 .table-conatianer>.title>a.active{
-  background-color: #000;
-  color: #fff;
+ background-color: #000;
+ color: #fff !important;
+ padding: 5px;
+ border-radius: 10px;
+ padding-left: 20px;
+ padding-right: 20px;
+ border: none;
 }
 @media only screen and (min-width: 1500px) {
   /* CSS rules specific to screens with a minimum width of 1500px */

@@ -11,6 +11,7 @@ import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import FlightsTable from './FlightsTable';
 import UpdateArr from './UpdateArr';
+import LandingIcon from './LandingIcon';
 
 const StyledTableCell = styled(TableCell)(() => ({
     [`&.${tableCellClasses.head}`]: {
@@ -60,37 +61,54 @@ const UpdateArrival = () => {
   
   
     const pageItems = filteredData
-  
-    useEffect(() => {
-     function flightDataServer(){
-      const socket = new WebSocket('wss://flight-information-server.onrender.com');
-  
-      socket.onopen = () => {
-        console.log('Connected to WebSocket server');
-      };
-  
-      socket.onmessage = (event) => {
-        const newData = JSON.parse(event.data);
-        setData(newData);
-      };
-  
-      socket.onclose = () => {
-        console.log('Disconnected from WebSocket server');
-      };
-  
-      return () => {
-        socket.close();
-      };
+    
+    
+   //api testing --->
+   useEffect(() => {
+    async function testAPI(){
+     try {
+      const response = await axios.get('http://localhost:8080/api/data') ;
+      console.log(response.data);
+      setData(response.data);
+     } catch (error) {
+      console.log(error);
      }
+    }
+
+  setInterval(() => {
+    testAPI();
+  }, 1000)
+  }, [pageItems.length])
+  //   useEffect(() => {
+  //    function flightDataServer(){
+  //     const socket = new WebSocket('wss://fddsbackend.onrender.com');
+  
+  //     socket.onopen = () => {
+  //       console.log('Connected to WebSocket server');
+  //     };
+  
+  //     socket.onmessage = (event) => {
+  //       const newData = JSON.parse(event.data);
+  //       setData(newData);
+  //     };
+  
+  //     socket.onclose = () => {
+  //       console.log('Disconnected from WebSocket server');
+  //     };
+  
+  //     return () => {
+  //       socket.close();
+  //     };
+  //    }
      
   
-      flightDataServer();
-   setInterval(() => {
-      flightDataServer();
-   }, 1000);
+  //     flightDataServer();
+  //  setInterval(() => {
+  //     flightDataServer();
+  //  }, 1000);
      
   
-  }, [pageItems.length]);
+  // }, [pageItems.length]);
   
   
   
@@ -145,7 +163,7 @@ const UpdateArrival = () => {
   
   const handleUpdateButton = async () => {
   
-    const response = await axios.patch(`https://flight-information-server.onrender.com/api/update/${flightid}/${updateETD}/${gateUpdate}/${remarkUpdate}/${delayMin}`);
+    const response = await axios.patch(`http://localhost:8080/api/update/${flightid}/${updateETD}/${gateUpdate}/${remarkUpdate}/${delayMin}`);
     console.log(response)
     console.log(delayUpadate);
     // Implement your update logic here
@@ -167,6 +185,10 @@ const UpdateArrival = () => {
   
   return (
           <div className="item">
+            <div className="top-heading-bar"> 
+        <div className="icon"><LandingIcon /></div>
+        <h2>FIDS - MANAGEMENT SYSTEM</h2>
+      </div>
             <div className="switchPannel">
             <FlightsTable />
             <UpdateArr />
@@ -178,11 +200,11 @@ const UpdateArrival = () => {
               <StyledTableCell className='arr'>STA</StyledTableCell>
               <StyledTableCell className='arr'>ETA</StyledTableCell>
               <StyledTableCell className='arr' align="center">DELAY</StyledTableCell>
-              <StyledTableCell className='arr' align="center"></StyledTableCell>
-              <StyledTableCell className='arr' align="center">ID</StyledTableCell>
+              <StyledTableCell className='arr' align="center">AIRLINE</StyledTableCell>
+              <StyledTableCell className='arr' align="center">FLIGHT NO.</StyledTableCell>
               {/* <StyledTableCell align="center">FROM</StyledTableCell> */}
               <StyledTableCell className='arr' align="center">TO</StyledTableCell>
-              <StyledTableCell className='arr' align="center">DAYS</StyledTableCell>
+              {/* <StyledTableCell className='arr' align="center">DAYS</StyledTableCell> */}
               <StyledTableCell className='arr' align="center">GATE</StyledTableCell>
               <StyledTableCell className='arr' align="center">REMARK</StyledTableCell>
               <StyledTableCell className='arr' align="center">EDIT</StyledTableCell>
@@ -226,10 +248,10 @@ const UpdateArrival = () => {
               <StyledTableCell className='col' align="center">{item.ID}</StyledTableCell>
               {/* <StyledTableCell className='col' align="center">{item.FROM}</StyledTableCell> */}
               <StyledTableCell className='col' align="center">{item.DESTINATION}</StyledTableCell>
-  
+{/*   
               <StyledTableCell className='col' align="center">
                   {item.DAYS}
-                  </StyledTableCell>
+                  </StyledTableCell> */}
   
               <StyledTableCell className='col' align="center">
               <span style={{color: "#FFDB00"}}>

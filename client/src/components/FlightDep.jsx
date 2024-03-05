@@ -1,19 +1,28 @@
-import '../App.css'
-import { useNavigate } from 'react-router-dom';
+import "../App.css";
 
+const spanStyle = {
+  fontWeight: 600,
+  fontSize: "1.8vw",
+  cursor: "pointer",
+  position: "absolute",
+  top: "5.5vw",
+};
 
 function FlightsTable() {
-const navigate = useNavigate();
-const switchBetweenPage = () => {
-  navigate('/arrival');
-  window.location.reload();
-}
+  const switchBetweenPage = () => {
+    window.open("http://localhost:5173/#/arrival", "_blank");
+  };
 
   return (
     <div className="table-conatianer">
-        <div className="title"><h2><span onClick={switchBetweenPage} style={{fontWeight: "600", fontSize: "1.8vw", cursor:"pointer"}}>Flight Departure</span></h2></div>
+      <div className="title">
+        <h2>
+          <span onClick={switchBetweenPage} style={spanStyle}>
+            Flight Departure
+          </span>
+        </h2>
+      </div>
     </div>
-  )
-
+  );
 }
-export default FlightsTable
+export default FlightsTable;
