@@ -68,7 +68,7 @@ const UpdateArrival = () => {
     async function testAPI(){
      try {
       const response = await axios.get('https://flight-information-server.onrender.com/api/data') ;
-      console.log(response.data);
+      
       setData(response.data);
      } catch (error) {
       console.log(error);
