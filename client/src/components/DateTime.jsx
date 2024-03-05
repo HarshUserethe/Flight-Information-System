@@ -6,8 +6,7 @@ const datetimeStyle = {
     top: "2vw",
     fontSize: "1.3vw",
     fontWeight: 500,
-    textAlign: "right"
-
+    textAlign: "center"
 }
 
 const DateTime = () => {
@@ -19,12 +18,18 @@ const DateTime = () => {
   useEffect(() => {
     const fetchTime = async () => {
       try {
-        const response = await fetch('https://api.worldtimeapi.org/api/timezone/Asia/Kolkata'); // Replace with your preferred Indian time server API
+        const response = await fetch('https://api.worldtimeapi.org/api/timezone/Asia/Kolkata');
         const data = await response.json();
         const datetime = data.datetime;
         const time = datetime.slice(11, 16); // Extract time (24-hour format)
         const date = datetime.slice(0, 10); // Extract date (YYYY-MM-DD)
-        const formattedDate = formatDate(date); // Function to format date
+        
+        // Convert date string to Date object
+        const parsedDate = new Date(date);
+        
+        // Format the date manually
+        const formattedDate = `${parsedDate.getDate().toString().padStart(2, '0')}-${parsedDate.toLocaleString('default', { month: 'short' })}-${parsedDate.getFullYear()}`;
+        
         setCurrentTime(time);
         setCurrentDate(formattedDate);
       } catch (error) {
@@ -38,13 +43,13 @@ const DateTime = () => {
     return () => clearInterval(intervalId); // Cleanup on unmount
   }, []);
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
-    const year = date.getFullYear();
-    return `${day}-${month}-${year}`;
-  };
+  // const formatDate = (dateString) => {
+  //   const date = new Date(dateString);
+  //   const day = String(date.getDate()).padStart(2, '0');
+  //   const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+  //   const year = date.getFullYear();
+  //   return `${day}-${month}-${year}`;
+  // };
 
 
   return (
@@ -52,9 +57,9 @@ const DateTime = () => {
      <div style={datetimeStyle}>
       {currentTime && currentDate && (
         <>
-          <span>{currentTime}</span>
-          <br />
           <span>{currentDate}</span>
+          <br />
+          <span>{currentTime}</span>
         </>
       )}
     </div>
