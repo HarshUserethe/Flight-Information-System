@@ -61,7 +61,7 @@ function Items() {
   useEffect(() => {
     async function testAPI(){
      try {
-      const response = await axios.get('http://localhost:8080/api/data') ;
+      const response = await axios.get('https://flight-information-server.onrender.com/api/data') ;
       setData(response.data);
      } catch (error) {
       console.log(error);
