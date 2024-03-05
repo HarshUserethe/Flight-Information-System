@@ -19,7 +19,7 @@ html,body{
 }
 .top-heading-bar{
   width: 100%;
-  height: 5%;
+  height: 6vw;
   display: flex;
   gap: 5px;
   justify-content: left;
@@ -92,7 +92,7 @@ li{
   font-weight: 500 !important;
   font-family: "Poppins", sans-serif;
 }
-.icon{
+/* .icon{
   background-color: #000;
   display: flex;
   justify-content: center;
@@ -103,6 +103,19 @@ li{
   width: 7vw;
   padding: 10px;
   height: 6vw;
+  border-radius: 10px;
+} */
+.icon{
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 3%;
+  margin-top: 1%;
+  position: absolute;
+  width: 5vw;
+  padding: 10px;
+  height: 5vw;
   border-radius: 10px;
 }
 .odd:nth-child(even){
@@ -356,6 +369,15 @@ label{
  padding-left: 20px;
  padding-right: 20px;
  border: none;
+}
+.css-x2v016-MuiTableCell-root.MuiTableCell-body {
+  font-size: 15px;
+  font-weight: 500 !important;
+  font-family: Poppins;
+  color: #fff;
+  padding: 10px;
+  border-top: 1px solid #dfdfdf;
+  border-bottom: 1px solid #dfdfdf;
 }
 @media only screen and (min-width: 1500px) {
   /* CSS rules specific to screens with a minimum width of 1500px */
