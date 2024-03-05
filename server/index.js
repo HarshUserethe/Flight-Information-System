@@ -30,6 +30,10 @@ const cacheMiddleware = new expressCacheMiddleware({
   keyGenerator: (req, res) => req.url, // Custom key generation (optional)
 });
 
+app.get('/', (req, res) => {
+  res.send("WELCOME TO SERVER")
+})
+
 //data fetching api
 app.get('/api/data', cors(), async (req, res)=> {
   connection.query('SELECT * FROM flight', (error, results, fields) => {
