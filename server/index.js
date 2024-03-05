@@ -21,6 +21,7 @@ const connection = mysql.createConnection({
 app.use(cors({
   https://flight-information-system.vercel.app/
 }));
+
 //express chaching
 const expressCacheMiddleware = require('express-cache-middleware');
 const cacheMiddleware = new expressCacheMiddleware({
@@ -28,11 +29,6 @@ const cacheMiddleware = new expressCacheMiddleware({
   cacheTime: 1000 * 60 * 5, // Cache for 5 minutes
   keyGenerator: (req, res) => req.url, // Custom key generation (optional)
 });
-
-
-app.get('/', (req, res){
-  res.send("WELCOME TO SERVER");
-})
 
 //data fetching api
 app.get('/api/data', cors(), async (req, res)=> {
@@ -46,35 +42,6 @@ app.get('/api/data', cors(), async (req, res)=> {
     res.json(results);
   });
 })
-
-// Connect to MySQL
-connection.connect((err) => {
-  if (err) {
-    console.error('Error connecting to MySQL database: ', err);
-    return;
-  }
-  console.log('Connected to MySQL database...');
-});
-
-// WebSocket server
-wss.on('connection', (ws) => {
-   
-   console.log('Client connected');
-  // Send initial data to client upon connection
-  connection.query('SELECT * FROM flight', (error, results) => {
-    if (error) {
-      console.error('Error fetching initial data: ', error);
-      return;
-    }
-    ws.send(JSON.stringify(results));
-  });
-
-  // Listen for close event
-  ws.on('close', () => {
-    console.log('Client disconnected');
-  });
-});
-
 
 app.get('/api/admin', (req, res) => {
 
