@@ -19,7 +19,7 @@ const connection = mysql.createConnection({
 });
 
 app.use(cors({
-  origin: 'http://localhost:5173'
+  https://flight-information-system.vercel.app/
 }));
 //express chaching
 const expressCacheMiddleware = require('express-cache-middleware');
@@ -28,6 +28,11 @@ const cacheMiddleware = new expressCacheMiddleware({
   cacheTime: 1000 * 60 * 5, // Cache for 5 minutes
   keyGenerator: (req, res) => req.url, // Custom key generation (optional)
 });
+
+
+app.get('/', (req, res){
+  res.send("WELCOME TO SERVER");
+})
 
 //data fetching api
 app.get('/api/data', cors(), async (req, res)=> {
