@@ -139,7 +139,7 @@ for (let i = 0; i < emptyDivsCount; i++) {
 return (
         <div className="item">
            <div className="top-heading-bar"> 
-            <DateTime />
+           <DateTime />
         <div className="icon"><LandingIcon /></div>
         <h2>Jay Prakash Narayan International Airport</h2>
       </div>
@@ -153,11 +153,11 @@ return (
             {/* <StyledTableCell className='arr' align="center">DELAY</StyledTableCell> */}
             <StyledTableCell className='arr' align="center">AIRLINE</StyledTableCell>
             <StyledTableCell className='arr' align="center">FLIGHT NUMBER</StyledTableCell>
-            <StyledTableCell className='arr' align="center">FROM</StyledTableCell>
-            <StyledTableCell className='arr' align="center">TO</StyledTableCell>
+            {/* <StyledTableCell className='arr' align="center">FROM</StyledTableCell> */}
+            <StyledTableCell sx={{ minWidth: 200, maxWidth: 200 }} className='arr' align="center">TO</StyledTableCell>
             {/* <StyledTableCell className='arr' align="center">DAYS</StyledTableCell> */}
             <StyledTableCell className='arr' align="center">GATE</StyledTableCell>
-            <StyledTableCell className='arr' align="center">REMARK</StyledTableCell>
+            <StyledTableCell sx={{ minWidth: 130, maxWidth: 130 }} className='arr' align="center">REMARK</StyledTableCell>
           </TableRow>
         </TableHead>
         
@@ -165,7 +165,7 @@ return (
 
         {pageItems.map((item, index) => {
           return(
-            <TableBody className='odd' key={index}> 
+            <TableBody className='odd' key={index} sx={{ padding: "50px" }}> 
             
             <StyledTableCell className='col' component="th" scope="row" style={{color: "#FFDB00"}}>
                 {item.STD}
@@ -176,22 +176,17 @@ return (
             {/* <StyledTableCell className='col' align="center" style={{color: item.DELAY === 'No Delay' ? '#0FFF50' : 'red'}}>{item.DELAY} Min</StyledTableCell> */}
             <StyledTableCell className='col' align="center"><div className="logo-cell"><img src={item.LOGO} alt="" /></div></StyledTableCell>
             <StyledTableCell className='col' align="center">{item.ID}</StyledTableCell>
-            <StyledTableCell className='col' align="center">{item.FROM}</StyledTableCell>
-            <StyledTableCell className='col'  align="center">{item.DESTINATION}</StyledTableCell>
+            {/* <StyledTableCell className='col' align="center">{item.FROM}</StyledTableCell> */}
+            <StyledTableCell sx={{ minWidth: 200, maxWidth: 200 }} className='col'  align="center">{item.DESTINATION}</StyledTableCell>
             {/* <StyledTableCell className='col' align="center">{item.DAYS}</StyledTableCell> */}
             <StyledTableCell className='col' align="center">{item.GATE}</StyledTableCell>
-            <StyledTableCell className='col' align="center" ><span style={{color: "#FFDB00"}}>{item.REMARK}</span></StyledTableCell>
+            <StyledTableCell sx={{ minWidth: 130, maxWidth: 130 }} className='col' align="center" ><span style={{color: "#FFDB00"}}>{item.REMARK}</span></StyledTableCell>
 
             </TableBody>
           )
         })}
 
-     
-      
 
-
-
-       
         
       </Table>
     </TableContainer>
