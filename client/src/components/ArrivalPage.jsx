@@ -12,6 +12,7 @@ import Paper from '@mui/material/Paper';
 import FlightArr from './FlightArr';
 import LandingIcon from './LandingIcon';
 import axios from 'axios';
+import DateTime from './DateTime';
  
 
 
@@ -138,6 +139,7 @@ for (let i = 0; i < emptyDivsCount; i++) {
 return (
         <div className="item">
            <div className="top-heading-bar"> 
+            <DateTime />
         <div className="icon"><LandingIcon /></div>
         <h2>Jay Prakash Narayan International Airport</h2>
       </div>
