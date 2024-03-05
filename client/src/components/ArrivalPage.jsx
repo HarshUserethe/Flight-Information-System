@@ -151,7 +151,7 @@ return (
             <StyledTableCell className='arr'>STA</StyledTableCell>
             <StyledTableCell className='arr'>ETA</StyledTableCell>
             {/* <StyledTableCell className='arr' align="center">DELAY</StyledTableCell> */}
-            <StyledTableCell className='arr' align="center"></StyledTableCell>
+            <StyledTableCell className='arr' align="center">AIRLINE</StyledTableCell>
             <StyledTableCell className='arr' align="center">FLIGHT NUMBER</StyledTableCell>
             <StyledTableCell className='arr' align="center">FROM</StyledTableCell>
             <StyledTableCell className='arr' align="center">TO</StyledTableCell>
