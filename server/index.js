@@ -31,7 +31,7 @@ const cacheMiddleware = new expressCacheMiddleware({
 });
 
 app.get('/', (req, res) => {
-  res.send("WELCOME TO SERVER")
+  res.send("WELCOME TO BACKEND SERVER")
 })
 
 //data fetching api
