@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 const datetimeStyle = {
     position: "absolute",
     right: "2vw",
-    top: "3vw",
+    top: "2vw",
     fontSize: "1.3vw",
     fontWeight: 500,
     textAlign: "right"
