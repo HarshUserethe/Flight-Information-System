@@ -56,7 +56,7 @@ const UpdateArrival = () => {
     const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false });
     const filteredData = data.filter(item => {
       // Assuming ETD is in HH:MM format
-      return item.ETD >= currentTime;
+      return item.ETD >= currentTime && item.MODE === 'A';
     });
   
   
@@ -68,7 +68,6 @@ const UpdateArrival = () => {
     async function testAPI(){
      try {
       const response = await axios.get('https://flight-information-server.onrender.com/api/data') ;
-      
       setData(response.data);
      } catch (error) {
       console.log(error);
@@ -201,12 +200,12 @@ const UpdateArrival = () => {
               <StyledTableCell className='arr'>ETA</StyledTableCell>
               <StyledTableCell className='arr' align="center">DELAY</StyledTableCell>
               <StyledTableCell className='arr' align="center">AIRLINE</StyledTableCell>
-              <StyledTableCell className='arr' align="center">FLIGHT NO.</StyledTableCell>
+              <StyledTableCell className='arr' align="center">FL. CODE</StyledTableCell>
               {/* <StyledTableCell align="center">FROM</StyledTableCell> */}
-              <StyledTableCell className='arr' align="center">TO</StyledTableCell>
+              <StyledTableCell className='arr' align="center">ORIGIN</StyledTableCell>
               {/* <StyledTableCell className='arr' align="center">DAYS</StyledTableCell> */}
               <StyledTableCell className='arr' align="center">GATE</StyledTableCell>
-              <StyledTableCell className='arr' align="center">REMARK</StyledTableCell>
+              <StyledTableCell className='arr' align="center">REMARKS</StyledTableCell>
               <StyledTableCell className='arr' align="center">EDIT</StyledTableCell>
             </TableRow>
           </TableHead>
@@ -215,7 +214,7 @@ const UpdateArrival = () => {
   
           {pageItems.map((item, index) => { 
             return(
-              <TableBody className='odd' key={index}> 
+              <TableBody className='odd' key={index} sx={{ padding: "50px" }}> 
               
               <StyledTableCell className='col' component="th" scope="row" style={{color: "#FFDB00"}}>{item.STD}</StyledTableCell>
               <StyledTableCell className='col' component="th" scope="row">

@@ -17,7 +17,7 @@ function UpdateArr() {
         <div className="title" onClick={handleClick}>
         <NavLink exact to="/admin/arrival" style={{textTransform: "uppercase"}} activeClassName="active-link">
           <h2>
-            <span style={spanStyle}>Update Arrival</span>
+            <span style={spanStyle} >Update Arrivals</span>
           </h2>
         </NavLink>
         </div>

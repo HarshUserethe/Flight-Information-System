@@ -20,7 +20,7 @@ import DateTime from './DateTime';
 
 const StyledTableCell = styled(TableCell)(() => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: "#FFDB00",
+      backgroundColor: "yellow",
       color: "#000",
       fontWeight: "600 !important",
       fontFamily: "Poppins",
@@ -44,7 +44,7 @@ function ArrivalPage() {
 
   const [data, setData] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(1);
-  const batchSize = 8;
+  const batchSize = 9;
   const displayDuration = 10000; // 10 seconds
 
   const startIndex = (currentIndex - 1) * batchSize;
@@ -53,7 +53,7 @@ function ArrivalPage() {
   const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false });
   const filteredData = data.filter(item => {
     // Assuming ETD is in HH:MM format
-    return item.ETD >= currentTime;
+    return item.ETD >= currentTime && item.MODE === 'A';
   });
 
 
@@ -141,9 +141,9 @@ return (
            <div className="top-heading-bar"> 
            <DateTime />
         <div className="icon"><LandingIcon /></div>
-        <h2>Jay Prakash Narayan International Airport</h2>
+        <h2>ARRIVALS</h2>
       </div>
-          <FlightArr />
+          {/* <FlightArr /> */}
   <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
@@ -152,12 +152,12 @@ return (
             <StyledTableCell className='arr'>ETA</StyledTableCell>
             {/* <StyledTableCell className='arr' align="center">DELAY</StyledTableCell> */}
             <StyledTableCell className='arr' align="center">AIRLINE</StyledTableCell>
-            <StyledTableCell className='arr' align="center">FLIGHT NUMBER</StyledTableCell>
+            <StyledTableCell className='arr' align="center">FL. CODE</StyledTableCell>
             {/* <StyledTableCell className='arr' align="center">FROM</StyledTableCell> */}
-            <StyledTableCell sx={{ minWidth: 200, maxWidth: 200 }} className='arr' align="center">TO</StyledTableCell>
+            <StyledTableCell sx={{ minWidth: 200, maxWidth: 200 }} className='arr' align="center">ORIGIN</StyledTableCell>
             {/* <StyledTableCell className='arr' align="center">DAYS</StyledTableCell> */}
-            <StyledTableCell className='arr' align="center">GATE</StyledTableCell>
-            <StyledTableCell sx={{ minWidth: 130, maxWidth: 130 }} className='arr' align="center">REMARK</StyledTableCell>
+            {/* <StyledTableCell className='arr' align="center">GATE</StyledTableCell> */}
+            <StyledTableCell sx={{ minWidth: 130, maxWidth: 130 }} className='arr' align="center">REMARKS</StyledTableCell>
           </TableRow>
         </TableHead>
         
@@ -167,7 +167,7 @@ return (
           return(
             <TableBody className='odd' key={index} sx={{ padding: "0px" }}> 
             
-            <StyledTableCell className='col' component="th" scope="row" style={{color: "#FFDB00"}}>
+            <StyledTableCell className='col' component="th" scope="row" style={{color: "yellow"}}>
                 {item.STD}
             </StyledTableCell>
             <StyledTableCell className='col' component="th" scope="row">
@@ -179,14 +179,19 @@ return (
             {/* <StyledTableCell className='col' align="center">{item.FROM}</StyledTableCell> */}
             <StyledTableCell sx={{ minWidth: 200, maxWidth: 200 }} className='col'  align="center">{item.DESTINATION}</StyledTableCell>
             {/* <StyledTableCell className='col' align="center">{item.DAYS}</StyledTableCell> */}
-            <StyledTableCell className='col' align="center">{item.GATE}</StyledTableCell>
-            <StyledTableCell sx={{ minWidth: 130, maxWidth: 130 }} className='col' align="center" ><span style={{color: "#FFDB00"}}>{item.REMARK}</span></StyledTableCell>
+            {/* <StyledTableCell className='col' align="center">{item.GATE}</StyledTableCell> */}
+            <StyledTableCell sx={{ minWidth: 130, maxWidth: 130 }} className='col' align="center" ><span style={{color: "aqua"}}>{item.REMARK}</span></StyledTableCell>
 
             </TableBody>
           )
         })}
 
+     
+      
 
+
+
+       
         
       </Table>
     </TableContainer>

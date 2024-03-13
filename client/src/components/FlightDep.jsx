@@ -11,7 +11,7 @@ const spanStyle = {
 
 function FlightsTable() {
   const switchBetweenPage = () => {
-    window.open("https://flight-information-system.vercel.app/#/arrival", "_blank");
+    window.open("http://localhost:5173/#/arrival", "_blank");
   };
 
   return (

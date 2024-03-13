@@ -60,7 +60,7 @@ function EditFlight() {
   const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false });
   const filteredData = data.filter(item => {
     // Assuming ETD is in HH:MM format
-    return item.ETD >= currentTime;
+    return item.ETD >= currentTime && item.MODE === 'D';
   });
 
 
@@ -209,12 +209,12 @@ return (
             <StyledTableCell className='tv'>ETD</StyledTableCell>
             <StyledTableCell className='tv' align="center">DELAY</StyledTableCell>
             <StyledTableCell className='tv' align="center">AIRLINE</StyledTableCell>
-            <StyledTableCell className='tv' align="center">FLIGHT NO.</StyledTableCell>
+            <StyledTableCell className='tv' align="center">FL. CODE</StyledTableCell>
             {/* <StyledTableCell align="center">FROM</StyledTableCell> */}
-            <StyledTableCell className='tv' align="center">TO</StyledTableCell>
+            <StyledTableCell className='tv' align="center">DESTINATION</StyledTableCell>
             {/* <StyledTableCell className='tv' align="center">DAYS</StyledTableCell> */}
             <StyledTableCell className='tv' align="center">GATE</StyledTableCell>
-            <StyledTableCell className='tv' align="center">REMARK</StyledTableCell>
+            <StyledTableCell className='tv' align="center">STATUS</StyledTableCell>
             <StyledTableCell className='tv' align="center">EDIT</StyledTableCell>
           </TableRow>
         </TableHead>
@@ -223,7 +223,7 @@ return (
 
         {pageItems.map((item, index) => { 
           return(
-            <TableBody className='odd' key={index}> 
+            <TableBody className='odd' key={index} sx={{ padding: "50px" }}> 
             
             <StyledTableCell className='col' component="th" scope="row" style={{color: "#FFDB00"}}>{item.STD}</StyledTableCell>
             <StyledTableCell className='col' component="th" scope="row">

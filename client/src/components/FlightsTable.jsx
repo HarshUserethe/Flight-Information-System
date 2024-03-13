@@ -17,7 +17,7 @@ function FlightsTable() {
         <div className="title">
         <NavLink exact to="/admin/update" style={{textTransform: "uppercase"}} activeClassName="active-link">
           <h2>
-            <span style={spanStyle}>Update Departure</span>
+            <span style={spanStyle}>Update Departures</span>
           </h2>
         </NavLink>
         </div>

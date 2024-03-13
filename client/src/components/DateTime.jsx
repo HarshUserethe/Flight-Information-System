@@ -3,10 +3,11 @@ import { useState, useEffect } from 'react';
 const datetimeStyle = {
     position: "absolute",
     right: "2vw",
-    top: "2vw",
+    top: "1vw",
     fontSize: "1.3vw",
     fontWeight: 500,
-    textAlign: "center"
+    textAlign: "center",
+    lineHeight: "2vw"
 }
 
 const DateTime = () => {
@@ -59,7 +60,7 @@ const DateTime = () => {
         <>
           <span>{currentDate}</span>
           <br />
-          <span>{currentTime}</span>
+          <span style={{fontSize:"2vw", fontWeight:"bold", color:"#fff"}}>{currentTime}</span>
         </>
       )}
     </div>

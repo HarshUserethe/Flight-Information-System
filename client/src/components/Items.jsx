@@ -18,7 +18,7 @@ import axios from 'axios';
 
 const StyledTableCell = styled(TableCell)(() => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: "#FFDB00",
+      backgroundColor: "yellow",
       color: "#000",
       fontWeight: "600 !important",
       fontFamily: "Poppins",
@@ -41,7 +41,7 @@ function Items() {
 
   const [data, setData] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(1);
-  const batchSize = 8;
+  const batchSize = 9;
   const displayDuration = 10000; // 10 seconds
  
   const startIndex = (currentIndex - 1) * batchSize;
@@ -50,7 +50,7 @@ function Items() {
   const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false });
   const filteredData = data.filter(item => {
     // Assuming ETD is in HH:MM format
-    return item.ETD >= currentTime;
+    return item.ETD >= currentTime && item.MODE === 'D';
   });
 
 
@@ -139,13 +139,13 @@ for (let i = 0; i < emptyDivsCount; i++) {
 
 
 return (
-       <div className="item">
+        <div className="item">
         <div className="top-heading-bar"> 
         <DateTime />
         <div className="icon"><TakeOffIcon /></div>
-        <h2>Jay Prakash Narayan International Airport</h2>
+        <h2>DEPARTURES</h2>
       </div>
-          <FlightDep />
+          {/* <FlightDep /> */}
   <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
@@ -154,12 +154,12 @@ return (
             <StyledTableCell className='tv'>ETD</StyledTableCell>
             {/* <StyledTableCell className='tv' align="center">DELAY</StyledTableCell> */}
             <StyledTableCell className='tv' align="center">AIRLINE</StyledTableCell>
-            <StyledTableCell className='tv' align="center">FLIGHT NO.</StyledTableCell>
+            <StyledTableCell className='tv' align="center">FL. CODE</StyledTableCell>
             {/* <StyledTableCell align="center">FROM</StyledTableCell> */}
-            <StyledTableCell sx={{ minWidth: 200, maxWidth: 200 }} className='tv' align="center">TO</StyledTableCell>
+            <StyledTableCell sx={{ minWidth: 200, maxWidth: 200 }} className='tv' align="center">DESTINATION</StyledTableCell>
             {/* <StyledTableCell className='tv' align="center">DAYS</StyledTableCell> */}
             <StyledTableCell className='tv' align="center">GATE</StyledTableCell>
-            <StyledTableCell sx={{ minWidth: 130, maxWidth: 130 }} className='tv' align="center">REMARK</StyledTableCell>
+            <StyledTableCell sx={{ minWidth: 130, maxWidth: 130 }} className='tv' align="center">STATUS</StyledTableCell>
           </TableRow>
         </TableHead>
         
@@ -169,7 +169,7 @@ return (
           return(
             <TableBody className='odd' key={index} sx={{ padding: "0px" }}> 
             
-            <StyledTableCell className='col' component="th" scope="row" style={{color: "#FFDB00"}}>
+            <StyledTableCell className='col' component="th" scope="row" style={{color: "yellow"}}>
                 {item.STD}
             </StyledTableCell>
             <StyledTableCell className='col' component="th" scope="row">
@@ -182,19 +182,12 @@ return (
             <StyledTableCell className='col'sx={{ minWidth: 200, maxWidth: 200 }}  align="center">{item.DESTINATION}</StyledTableCell>
             {/* <StyledTableCell className='col' align="center">{item.DAYS}</StyledTableCell> */}
             <StyledTableCell className='col' align="center">{item.GATE}</StyledTableCell>
-            <StyledTableCell sx={{ minWidth: 130, maxWidth: 130 }} className='col' align="center" ><span style={{color: "#FFDB00"}}>{item.REMARK}</span></StyledTableCell>
+            <StyledTableCell sx={{ minWidth: 130, maxWidth: 130 }} className='col' align="center" ><span style={{color: "aqua"}}>{item.REMARK}</span></StyledTableCell>
 
             </TableBody>
           )
         })}
 
-     
-      
-
-
-
-       
-        
       </Table>
     </TableContainer>
     {/* <Pagination 

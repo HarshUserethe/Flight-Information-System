@@ -1,17 +1,17 @@
 import "../App.css";
 
 const spanStyle = {
-    fontWeight: 600,
-    fontSize: "1.8vw",
-    cursor: "pointer",
-    position: "absolute",
-    top: "4vw",
-    marginLeft: "0.5vw",
+  fontWeight: 600,
+  fontSize: "1.8vw",
+  cursor: "pointer",
+  position: "absolute",
+  top: "4vw",
+  marginLeft: "0.5vw",
 };
 
 function FlightArr() {
   const switchBetweenPage = () => {
-    window.open("https://flight-information-system.vercel.app/", "_blank");
+    window.open("http://localhost:5173/", "_blank");
   };
 
   return (
